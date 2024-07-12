@@ -61,7 +61,7 @@ def view_frame(pre_fin_flag, stop_flag, output_frame_info):
     return
 
 def yolo_predict_frame(yolo_pre_flag, pre_fin_flag, yolo_mem_name, stop_flag, frame_info, output_frame_info):
-    model = YOLO("best.pt")
+    model = YOLO("models/best.pt")
     while True:
         if yolo_pre_flag.is_set():
             yolo_pre_flag.clear()
@@ -80,7 +80,7 @@ def yolo_predict_frame(yolo_pre_flag, pre_fin_flag, yolo_mem_name, stop_flag, fr
     return
 
 def mp_predict_frame(mp_pre_flag, pre_fin_flag, mp_mem_name, stop_flag, frame_info, output_frame_info):
-    base_options = python.BaseOptions(model_asset_path='pose_landmarker_lite.task')
+    base_options = python.BaseOptions(model_asset_path="models/pose_landmarker_lite.task")
     options = vision.PoseLandmarkerOptions(
         base_options=base_options,
         output_segmentation_masks=True)
@@ -89,7 +89,7 @@ def mp_predict_frame(mp_pre_flag, pre_fin_flag, mp_mem_name, stop_flag, frame_in
         if mp_pre_flag.is_set():
             mp_pre_flag.clear()
             shm = shared_memory.SharedMemory(name=mp_mem_name)
-            frame = np.ndarray(shape=frame_info["shape"], dtype=frame_info["dtype"], buffer=shm.buf)
+            frame = np.ndarray(shape=frame_info['shape'], dtype=frame_info['dtype'], buffer=shm.buf)
 
             mp_frame = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
             detection_result = detector.detect(mp_frame)

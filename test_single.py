@@ -42,13 +42,13 @@ pipeline.start(config)
 align_to = rs.stream.color
 align = rs.align(align_to)
 
-base_options = python.BaseOptions(model_asset_path='pose_landmarker_lite.task')
+base_options = python.BaseOptions(model_asset_path="models/pose_landmarker_lite.task")
 options = vision.PoseLandmarkerOptions(
     base_options=base_options,
     output_segmentation_masks=True)
 detector = vision.PoseLandmarker.create_from_options(options)
 
-model = YOLO("best.pt")
+model = YOLO("models/best.pt")
 
 counter = 0
 start = time.time()
